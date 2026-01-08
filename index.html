@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 QCM 5e - Toutes les matières</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      color: white;
+      padding: 2.5rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      padding: 3rem 2.5rem;
+    }
+    .subject-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+    .subject-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.6s;
+    }
+    .subject-card:hover::before {
+      left: 100%;
+    }
+    .subject-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+      border-color: rgba(255,107,107,0.5);
+    }
+    .subject-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .subject-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 0.8rem;
+      text-align: center;
+    }
+    .subject-description {
+      color: #7f8c8d;
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .subject-qcms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: center;
+    }
+    .qcm-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(102,126,234,0.3);
+    }
+    .qcm-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(102,126,234,0.4);
+    }
+    .stats {
+      background: rgba(255,255,255,0.9);
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 0 2.5rem 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .stat-label {
+      color: #7f8c8d;
+      font-size: 1rem;
+      font-weight: 500;
+      margin-top: 0.3rem;
+    }
+    @media (max-width: 768px) {
+      .subjects-grid {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+      }
+      h1 { font-size: 2.2rem; }
+      .container { margin: 1rem; border-radius: 16px; }
+      header { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 QCM 5<sup>e</sup> Collège</h1>
+      <p class="subtitle">Préparation interactive aux évaluations • Programme 2025-2026</p>
+    </header>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number" data-count="5">0</div>
+        <div class="stat-label">Matières</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-count="45">0</div>
+        <div class="stat-label">QCM disponibles</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" data-count="675">0</div>
+        <div class="stat-label">Questions</div>
+      </div>
+    </div>
+
+    <div class="subjects-grid">
+      <div class="subject-card" onclick="scrollToSubject('maths')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">📐</div>
+        <div class="subject-title">Mathématiques</div>
+        <div class="subject-description">Calcul littéral, géométrie, fractions, symétrie, probabilités</div>
+        <div class="subject-qcms">
+          <a href="maths/calcul-litteral-1.html" class="qcm-btn" target="_blank">Expressions littérales</a>
+          <a href="maths/calcul-litteral-2.html" class="qcm-btn" target="_blank">QCM avancé</a>
+        </div>
+      </div>
+
+      <div class="subject-card" onclick="scrollToSubject('anglais')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">🇬🇧</div>
+        <div class="subject-title">Anglais CAPES</div>
+        <div class="subject-description">Faits de langue, analyse syntaxique, valeurs verbales</div>
+        <div class="subject-qcms">
+          <a href="anglais/capes-faits-langue-1.html" class="qcm-btn" target="_blank">QCM 1</a>
+          <a href="anglais/capes-faits-langue-2.html" class="qcm-btn" target="_blank">QCM 2 avancé</a>
+        </div>
+      </div>
+
+      <div class="subject-card" onclick="scrollToSubject('geographie')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">🌍</div>
+        <div class="subject-title">Géographie</div>
+        <div class="subject-description">La diversité de l'Asie, peuplement, agriculture, contrastes</div>
+        <div class="subject-qcms">
+          <a href="geographie/asie-diversite-1.html" class="qcm-btn" target="_blank">Diversité Asie</a>
+          <a href="geographie/asie-fiches-pays.html" class="qcm-btn" target="_blank">Fiches pays</a>
+        </div>
+      </div>
+
+      <div class="subject-card" onclick="scrollToSubject('francais')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">📖</div>
+        <div class="subject-title">Français</div>
+        <div class="subject-description">Grammaire, conjugaison, orthographe, analyse de texte</div>
+        <div class="subject-qcms">
+          <a href="francais/grammaire-5e.html" class="qcm-btn" target="_blank">Grammaire</a>
+          <a href="francais/orthographe.html" class="qcm-btn" target="_blank">Orthographe</a>
+        </div>
+      </div>
+
+      <div class="subject-card" onclick="scrollToSubject('histoire')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #a8edea, #fed6e3);">🏛️</div>
+        <div class="subject-title">Histoire</div>
+        <div class="subject-description">Moyen-Âge, Renaissance, Révolutions, France 1789</div>
+        <div class="subject-qcms">
+          <a href="histoire/1789-revolution.html" class="qcm-btn" target="_blank">Révolution 1789</a>
+          <a href="histoire/moyen-age.html" class="qcm-btn" target="_blank">Moyen-Âge</a>
+        </div>
+      </div>
+
+      <div class="subject-card" onclick="scrollToSubject('svt')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">🔬</div>
+        <div class="subject-title">SVT</div>
+        <div class="subject-description">Reproduction, squelette, roches, volcans</div>
+        <div class="subject-qcms">
+          <a href="svt/reproduction.html" class="qcm-btn" target="_blank">Reproduction</a>
+          <a href="svt/volcans.html" class="qcm-btn" target="_blank">Volcans</a>
+        </div>
+      </div>
+
+      <div class="subject-card" onclick="scrollToSubject('physique')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">⚡</div>
+        <div class="subject-title">Physique-Chimie</div>
+        <div class="subject-description">Électricité, lumière, molécules, solutions</div>
+        <div class="subject-qcms">
+          <a href="physique/electricite.html" class="qcm-btn" target="_blank">Électricité</a>
+          <a href="physique/lumiere.html" class="qcm-btn" target="_blank">Lumière</a>
+        </div>
+      </div>
+
+      <div class="subject-card" onclick="scrollToSubject('techno')">
+        <div class="subject-icon" style="background: linear-gradient(135deg, #d299c2, #fef9d7);">🔧</div>
+        <div class="subject-title">Technologie</div>
+        <div class="subject-description">Programmation, objets connectés, impression 3D</div>
+        <div class="subject-qcms">
+          <a href="techno/programmation.html" class="qcm-btn" target="_blank">Scratch</a>
+          <a href="techno/objets-connectes.html" class="qcm-btn" target="_blank">Objets connectés</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Animation des compteurs
+    function animateCounters() {
+      const counters = document.querySelectorAll('.stat-number[data-count]');
+      counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-count'));
+        const increment = target / 100;
+        let current = 0;
+        
+        const updateCounter = () => {
+          if (current < target) {
+            current += increment;
+            counter.textContent = Math.floor(current);
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.textContent = target;
+          }
+        };
+        updateCounter();
+      });
+    }
+
+    // Scroll fluide vers les matières
+    function scrollToSubject(subject) {
+      const cards = document.querySelectorAll('.subject-card');
+      cards.forEach((card, index) => {
+        if (index === 0) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    }
+
+    // Lancer l'animation au chargement
+    window.addEventListener('load', animateCounters);
+
+    // Effet de survol sur les cartes
+    document.querySelectorAll('.subject-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-12px) scale(1.02)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>
