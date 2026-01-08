@@ -1,1 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM Géographie 5e : La diversité de l’Asie</title>
+    <style>
+        :root {
+            --primary: #28a745; /* Vert pour la géo */
+            --success: #28a745;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .dashboard {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 { margin: 0; font-size: 1.8em; }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: #f1f3f5;
+            font-weight: bold;
+        }
+        .question-container {
+            padding: 20px;
+        }
+        .question {
+            display: none;
+            margin-bottom: 30px;
+        }
+        .question.active {
+            display: block;
+        }
+        .question h3 {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        .options label {
+            display: block;
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .options label:hover {
+            background: #d4edda;
+            border-color: var(--primary);
+        }
+        .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            background: var(--primary);
+            color: white;
+            transition: 0.3s;
+        }
+        button:hover { background: #218838; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #result {
+            display: none;
+            padding: 30px;
+            text-align: center;
+        }
+        .score {
+            font-size: 2.5em;
+            margin: 20px 0;
+            color: var(--primary);
+        }
+        .detailed-results {
+            text-align: left;
+            margin-top: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .detailed-results .item {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .detailed-results img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .detailed-results .correct { color: var(--success); font-weight: bold; }
+        .detailed-results .incorrect { color: var(--danger); font-weight: bold; }
+        .detailed-results .explanation { margin-top: 10px; font-style: italic; }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5em; }
+            .info { flex-direction: column; gap: 10px; }
+            .navigation { flex-direction: column; gap: 10px; }
+            button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1>QCM Géographie 5e : La diversité de l’Asie</h1>
+        </header>
+        <div class="info">
+            <div>Question <span id="current">1</span>/10</div>
+            <div>Score : <span id="score">0</span></div>
+            <div>Temps : <span id="timer">00:00</span></div>
+        </div>
 
+        <div class="question-container" id="questions"></div>
+
+        <div class="navigation">
+            <button id="prev">Précédent</button>
+            <button id="next">Suivant</button>
+            <button id="submit">Terminer le QCM</button>
+        </div>
+
+        <div id="result">
+            <h2>Résultats</h2>
+            <div class="score" id="finalScore"></div>
+            <p id="message"></p>
+            <div class="detailed-results" id="detailedResults"></div>
+            <button onclick="location.reload()">Recommencer</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "Quel est le principal foyer de forte densité de population en Asie ?", a: "B", options: ["A) La Sibérie et l'Asie centrale", "B) L'Asie du Sud (Inde, Bangladesh) et l'Asie de l'Est (Chine)", "C) Le Moyen-Orient", "D) L'Asie du Sud-Est insulaire"], expl: "Les grands foyers sont l'Asie du Sud et l'Asie de l'Est (plaines du Gange, Yangtze, delta du fleuve Rouge, Java). Les 'vides' sont la Mongolie, le Tibet, les déserts. <img src='https://geoconfluences.ens-lyon.fr/images/images-asie-du-sud-est/img-cesaro-agriculture-ase/densite-population-carte-ase-900px.png' alt='Carte densité population Asie du Sud-Est'> <img src='https://www.actualitix.com/wp-content/uploads/2017/03/carte-asie.jpg' alt='Carte générale Asie'>" },
+            { q: "Pourquoi observe-t-on de forts contrastes de peuplement en Asie ?", a: "A", options: ["A) Liés à la maîtrise ancienne de l'eau pour l'agriculture (riziculture) et aux reliefs/climats difficiles", "B) Seulement à cause du climat tropical", "C) À cause des guerres récentes", "D) Uniquement aux littoraux riches"], expl: "L'ancienneté des systèmes agricoles irrigués (riz) explique les fortes densités dans les plaines alluviales, tandis que montagnes, déserts et climats extrêmes créent des vides." },
+            { q: "Quelle religion domine majoritairement en Inde ?", a: "C", options: ["A) Islam", "B) Bouddhisme", "C) Hindouisme", "D) Christianisme"], expl: "L'hindouisme est majoritaire en Inde et au Népal. <img src='https://www.lalettregeopolitique.fr/wp-content/uploads/2024/08/image-12.png' alt='Carte religions Asie'>" },
+            { q: "Où l'islam est-il la religion principale en Asie ?", a: "B", options: ["A) En Chine et Japon", "B) Au Moyen-Orient et en Asie du Sud-Est (Indonésie, Malaisie)", "C) En Corée", "D) Au Tibet"], expl: "Islam dominant au Moyen-Orient, Pakistan, Bangladesh, Indonésie (plus grand pays musulman). <img src='https://www.actualitix.com/wp-content/uploads/2017/01/carte-des-religions-dans-le-monde.jpg' alt='Carte religions monde'>" },
+            { q: "Quel climat domine dans le nord de la Sibérie ?", a: "A", options: ["A) Climat polaire/froid", "B) Climat équatorial", "C) Climat méditerranéen", "D) Climat de mousson"], expl: "Grandes variations : polaire au nord, désertique au centre, mousson au sud-est, équatorial en Indonésie. <img src='http://download.vikidia.org/vikidia/fr/images/thumb/4/44/Climats_de_l%27Asie.jpg/800px-Climats_de_l%27Asie.jpg' alt='Carte climats Asie'>" },
+            { q: "Qu'oppose-t-on souvent en Asie ?", a: "D", options: ["A) Seulement montagnes et plaines", "B) Richesse uniforme", "C) Pauvreté partout", "D) Zones de richesse (littoraux, villes-États comme Singapour) et de pauvreté (intérieurs, États-continents)"], expl: "Contrastes richesse/pauvreté, littoraux/intérieurs, cités-États (Singapour) vs États-continents (Chine, Inde)." },
+            { q: "La 'révolution verte' a été appliquée dans quels pays pour intensifier l'agriculture ?", a: "C", options: ["A) Japon et Corée seulement", "B) Russie", "C) Inde, Vietnam, Philippines", "D) Arabie Saoudite"], expl: "Révolution verte : semences HY, engrais, irrigation pour augmenter rendements et lutter contre famines." },
+            { q: "Quels sont les avantages de la révolution verte ?", a: "A", options: ["A) Augmentation des rendements, victoire contre les famines, meilleur niveau de vie", "B) Aucune limite environnementale", "C) Réduction totale de la pauvreté", "D) Indépendance totale des firmes"], expl: "Succès : + production alimentaire, réduction famines en Asie." },
+            { q: "Quelles sont les limites de la révolution verte ?", a: "B", options: ["A) Aucune", "B) Problèmes environnementaux (pollution engrais/pesticides, consommation eau), inégalités, dépendance firmes", "C) Baisse des rendements", "D) Augmentation famines"], expl: "Limites : disparités régionales, inégalités sociales, impacts environnementaux (eau, sols)." },
+            { q: "Quel type d'État est Singapour ?", a: "C", options: ["A) État-continent", "B) Pays enclavé", "C) Cité-État riche et littoral", "D) Pays pauvre intérieur"], expl: "Contraste cités-États (Singapour, riche) vs États-continents (Inde, Chine avec intérieurs pauvres). <img src='https://www.atlas-monde.net/wp-content/uploads/2016/02/pays-asie.png' alt='Carte politique Asie'>" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = new Array(questions.length).fill(null);
+        let time = 0;
+        let timerInterval;
+
+        const questionsDiv = document.getElementById('questions');
+        const currentSpan = document.getElementById('current');
+        const scoreSpan = document.getElementById('score');
+        const timerSpan = document.getElementById('timer');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const submitBtn = document.getElementById('submit');
+        const resultDiv = document.getElementById('result');
+
+        function loadQuestion() {
+            questionsDiv.innerHTML = '';
+            questions.forEach((q, i) => {
+                const div = document.createElement('div');
+                div.className = 'question' + (i === currentQuestion ? ' active' : '');
+                div.innerHTML = `
+                    <h3>Question ${i+1} : ${q.q}</h3>
+                    <div class="options">
+                        ${q.options.map((opt, j) => `
+                            <label>
+                                <input type="radio" name="q${i}" value="${String.fromCharCode(65+j)}" ${answers[i] === String.fromCharCode(65+j) ? 'checked' : ''}>
+                                ${opt}
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                questionsDiv.appendChild(div);
+            });
+
+            currentSpan.textContent = currentQuestion + 1;
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = currentQuestion === questions.length - 1;
+        }
+
+        function saveAnswer() {
+            const selected = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            if (selected) answers[currentQuestion] = selected.value;
+        }
+
+        function calculateScore() {
+            score = answers.reduce((acc, ans, i) => ans === questions[i].a ? acc + 1 : acc, 0);
+        }
+
+        function showDetailedResults() {
+            const detailedDiv = document.getElementById('detailedResults');
+            detailedDiv.innerHTML = '';
+            questions.forEach((q, i) => {
+                const item = document.createElement('div');
+                item.className = 'item';
+                const userAnswer = answers[i] || 'Non répondue';
+                const isCorrect = userAnswer === q.a;
+                item.innerHTML = `
+                    <h4>Question ${i+1}: ${q.q}</h4>
+                    <p>Réponse choisie: ${userAnswer}</p>
+                    <p class="${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct !' : 'Incorrect. Bonne réponse: ' + q.a}</p>
+                    <p class="explanation">Explication détaillée: ${q.expl}</p>
+                `;
+                detailedDiv.appendChild(item);
+            });
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                time++;
+                const min = String(Math.floor(time / 60)).padStart(2, '0');
+                const sec = String(time % 60).padStart(2, '0');
+                timerSpan.textContent = `${min}:${sec}`;
+            }, 1000);
+        }
+
+        prevBtn.onclick = () => {
+            saveAnswer();
+            if (currentQuestion > 0) currentQuestion--;
+            loadQuestion();
+        };
+
+        nextBtn.onclick = () => {
+            saveAnswer();
+            if (currentQuestion < questions.length - 1) currentQuestion++;
+            loadQuestion();
+        };
+
+        submitBtn.onclick = () => {
+            saveAnswer();
+            calculateScore();
+            clearInterval(timerInterval);
+            questionsDiv.style.display = 'none';
+            document.querySelector('.navigation').style.display = 'none';
+            resultDiv.style.display = 'block';
+            document.getElementById('finalScore').textContent = `${score}/10`;
+            document.getElementById('message').textContent = score >= 8 ? 'Excellent travail ! 🌏' : score >= 6 ? 'Bien joué ! 👍' : 'À réviser pour mieux comprendre la diversité asiatique 😉';
+            showDetailedResults();
+        };
+
+        loadQuestion();
+        startTimer();
+    </script>
+</body>
+</html>
