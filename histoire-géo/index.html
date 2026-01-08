@@ -1,1 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌍 Histoire-Géographie 5e</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 50%, #667eea 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(135deg, #2c5530, #4a7c59);
+      color: white;
+      padding: 3rem 2.5rem;
+      text-align: centre;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      justify-content: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .back-home {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .back-home:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .periodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      padding: 3rem 2.5rem;
+    }
+    .periode-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+    }
+    .periode-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.7s;
+    }
+    .periode-card:hover::before {
+      left: 100%;
+    }
+    .periode-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      border-color: #43e97b;
+    }
+    .periode-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    .periode-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 0.8rem;
+      text-align: center;
+    }
+    .periode-subtitle {
+      color: #7f8c8d;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .go-to-qcm {
+      display: block;
+      background: linear-gradient(135deg, #43e97b, #38f9d7);
+      color: white;
+      text-align: center;
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(67,233,123,0.3);
+    }
+    .go-to-qcm:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(67,233,123,0.4);
+      text-decoration: none;
+      color: white;
+    }
+    .civique-section {
+      background: rgba(255,255,255,0.9);
+      padding: 2.5rem;
+      margin: 0 2.5rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .civique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .civique-card {
+      background: white;
+      padding: 1.8rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+    }
+    .civique-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .civique-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 768px) {
+      .periodes-grid {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+      }
+      h1 { font-size: 2rem; }
+      .header-top { flex-direction: column; gap: 1rem; }
+      .container { margin: 1rem; border-radius: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <a href="../index.html" class="back-home">← Accueil</a>
+        <h1>🌍 Histoire-Géographie 5<sup>e</sup></h1>
+      </div>
+      <p class="subtitle">Programme officiel 2025-2026 • 9 chapitres Histoire + 5 Géographie + EMC</p>
+    </header>
+
+    <div class="periodes-grid">
+      <!-- HISTOIRE -->
+      <a href="chretientes-islam.html" class="periode-card">
+        <div class="periode-icon" style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">⛪🕌</div>
+        <div class="periode-title">Chrétientés et islam</div>
+        <div class="periode-subtitle">(6ème-13ème siècles)</div>
+        <div class="go-to-qcm">→ QCM Chrétientés & Islam</div>
+      </a>
+
+      <a href="occident-feodal.html" class="periode-card">
+        <div class="periode-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🏰</div>
+        <div class="periode-title">Occident féodal</div>
+        <div class="periode-subtitle">(11ème-15ème siècles)</div>
+        <div class="go-to-qcm">→ QCM Société féodale</div>
+      </a>
+
+      <a href="europe-ouverture.html" class="periode-card">
+        <div class="periode-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">⛵🌎</div>
+        <div class="periode-title">Europe et monde</div>
+        <div class="periode-subtitle">(16ème-17ème siècles)</div>
+        <div class="go-to-qcm">→ QCM Découvertes</div>
+      </a>
+
+      <!-- GÉOGRAPHIE -->
+      <a href="demographie-inegalites.html" class="periode-card">
+        <div class="periode-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">👥📈</div>
+        <div class="periode-title">Démographie & inégalités</div>
+        <div class="periode-subtitle">Peuplement mondial</div>
+        <div class="go-to-qcm">→ QCM Question démographique</div>
+      </a>
+
+      <a href="ressources-naturelles.html" class="periode-card">
+        <div class="periode-icon" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">⛽🌱</div>
+        <div class="periode-title">Ressources limitées</div>
+        <div class="periode-subtitle">Énergies & matières premières</div>
+        <div class="go-to-qcm">→ QCM Ressources</div>
+      </a>
+
+      <a href="risques-changement-global.html" class="periode-card">
+        <div class="periode-icon" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">🌪️🌡️</div>
+        <div class="periode-title">Risques & climat</div>
+        <div class="periode-subtitle">Prévention et adaptation</div>
+        <div class="go-to-qcm">→ QCM Changement global</div>
+      </a>
+
+      <!-- ASIE (bonus programme collège) -->
+      <a href="asie-diversite.html" class="periode-card">
+        <div class="periode-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">🌏</div>
+        <div class="periode-title">Diversité de l'Asie</div>
+        <div class="periode-subtitle">Peuplement • Agriculture</div>
+        <div class="go-to-qcm">→ QCM Asie</div>
+      </a>
+    </div>
+
+    <!-- ENSEIGNEMENT MORALE CIVIQUE -->
+    <div class="civique-section">
+      <h2 style="color: #2c5530; margin-bottom: 1.5rem; font-size: 1.8rem;">🧭 Enseignement Moral et Civique</h2>
+      <p style="color: #5d6d7e; margin-bottom: 2rem; font-size: 1.1rem;">
+        Égalité F/H • Solidarité • Citoyenneté • Vivre ensemble
+      </p>
+      <div class="civique-grid">
+        <a href="emc/egalite-femmes-hommes.html" class="civique-card">
+          <div class="civique-icon" style="color: #e91e63;">⚖️</div>
+          <h3>Égalité F/H</h3>
+          <p>Droits et combats</p>
+        </a>
+        <a href="emc/solidarite-discriminations.html" class="civique-card">
+          <div class="civique-icon" style="color: #ff9800;">🤝</div>
+          <h3>Solidarité</h3>
+          <p>Lutte discriminations</p>
+        </a>
+        <a href="emc/vivre-ensemble.html" class="civique-card">
+          <div class="civique-icon" style="color: #2196f3;">🏘️</div>
+          <h3>Vivre ensemble</h3>
+          <p>Citoyenneté</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Animation fluide des liens
+    document.querySelectorAll('.periode-card, .civique-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-8px) scale(1.02)';
+      });
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>
 
