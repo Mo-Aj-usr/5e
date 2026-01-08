@@ -1,1 +1,218 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📐 Mathématiques 5e</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #667eea 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(135deg, #8e24aa, #ba68c8);
+      color: white;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+    .breadcrumb-link {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .breadcrumb-link:hover {
+      color: white;
+    }
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+    .external-resource {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin: 2rem 2rem 1rem;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      text-align: center;
+      border: 3px solid #f093fb;
+      transition: all 0.3s ease;
+    }
+    .external-resource:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px rgba(240,147,251,0.3);
+      border-color: #f5576c;
+    }
+    .external-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+    .external-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #8e24aa;
+      margin-bottom: 1rem;
+    }
+    .external-link {
+      display: inline-block;
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: white;
+      padding: 1.2rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: 0 10px 30px rgba(240,147,251,0.4);
+      transition: all 0.3s ease;
+    }
+    .external-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(240,147,251,0.5);
+      text-decoration: none;
+      color: white;
+    }
+    .local-qcms {
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .local-qcm-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      transition: all 0.4s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    .local-qcm-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    }
+    .local-qcm-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .local-qcm-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .header-top { flex-direction: column; gap: 1rem; }
+      h1 { font-size: 2rem; }
+      .container { margin: 1rem; border-radius: 16px; }
+      .local-qcms { grid-template-columns: 1fr; padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header avec navigation -->
+    <header>
+      <div class="header-top">
+        <a href="../index.html" class="back-btn">← Accueil</a>
+        <a href="index.html" class="back-btn">← H&G</a>
+      </div>
+      <div class="breadcrumbs">
+        <a href="../index.html" class="breadcrumb-link">Accueil</a>
+        <span>→</span>
+        <a href="index.html" class="breadcrumb-link">Histoire-Géo</a>
+        <span>→</span>
+        <span style="color: white;">Mathématiques</span>
+      </div>
+      <h1>📐 Mathématiques 5<sup>e</sup></h1>
+      <p class="subtitle">Programme officiel + Ressources externes premium</p>
+    </header>
+
+    <!-- Ressource externe principale -->
+    <a href="https://mo-aj-usr.github.io/5e/maths/index.html" class="external-resource" target="_blank">
+      <div class="external-icon">🚀</div>
+      <div class="external-title">Ressource Maths 5e </div>
+      <p style="color: #7f8c8d; font-size: 1.1rem; margin-bottom: 2rem;">
+        Accès complet aux QCM interactifs de <strong>mapageprof-usr.github.io/Maths_5e/</strong><br>
+        Calcul littéral • Géométrie • Probabilités • Fractions
+      </p>
+      <div class="external-link">→ Ouvrir Maths 5e Premium</div>
+    </a>
+
+    <!-- QCM locaux (bonus) -->
+    <div class="local-qcms">
+      <a href="calcul-litteral-1.html" class="local-qcm-card">
+        <div class="local-qcm-icon" style="color: #f093fb;">📝</div>
+        <h3 class="local-qcm-title">Calcul littéral 1</h3>
+        <p style="color: #7f8c8d;">Simplifier • Développer • Réduire</p>
+      </a>
+
+      <a href="calcul-litteral-2.html" class="local-qcm-card">
+        <div class="local-qcm-icon" style="color: #f5576c;">📊</div>
+        <h3 class="local-qcm-title">Calcul littéral 2</h3>
+        <p style="color: #7f8c8d;">Avancé • Factorisation • Égalités</p>
+      </a>
+
+      <a href="geometrie-5e.html" class="local-qcm-card">
+        <div class="local-qcm-icon" style="color: #667eea;">📐</div>
+        <h3 class="local-qcm-title">Géométrie 5e</h3>
+        <p style="color: #7f8c8d;">Triangles • Cercles • Symétrie</p>
+      </a>
+
+      <a href="probabilites.html" class="local-qcm-card">
+        <div class="local-qcm-icon" style="color: #4facfe;">🎲</div>
+        <h3 class="local-qcm-title">Probabilités</h3>
+        <p style="color: #7f8c8d;">Expériences aléatoires • Calculs</p>
+      </a>
+    </div>
+  </div>
+</body>
