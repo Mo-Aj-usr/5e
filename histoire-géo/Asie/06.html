@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QCM – L’Asie : repères et diversité (5e)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f5;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    max-width: 820px;
+    width: 100%;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 12px;
+    margin-bottom: 20px;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00a8ff, #4cd137);
+}
+
+.question {
+    font-size: 1.15em;
+    margin-bottom: 10px;
+}
+
+.choices button {
+    width: 100%;
+    margin: 6px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #f1f4f8;
+    font-size: 1em;
+}
+
+.choices button:hover {
+    background: #dce9ff;
+}
+
+.correct {
+    background: #c8f7c5 !important;
+}
+
+.wrong {
+    background: #f7c5c5 !important;
+}
+
+.explanation {
+    background: #f9fbfd;
+    border-left: 5px solid #00a8ff;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 0.95em;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#nextBtn {
+    background: #00a8ff;
+    color: white;
+    display: none;
+}
+
+#endBtn {
+    background: #ff6b6b;
+    color: white;
+}
+
+#result {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>QCM – L’Asie : repères et diversité (5e)</h1>
+
+<div class="dashboard">
+    <div>Score : <span id="score">0</span>/15</div>
+    <div>Question <span id="qNum">1</span>/15</div>
+</div>
+
+<div class="progress-bar">
+    <div class="progress" id="progress"></div>
+</div>
+
+<div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="explanation" id="explanation" style="display:none;"></div>
+</div>
+
+<div class="buttons">
+    <button id="nextBtn">Question suivante</button>
+    <button id="endBtn">TERMINER</button>
+</div>
+
+<div id="result"></div>
+</div>
+
+<script>
+const questions = [
+{
+q:"Quelle est la capitale du Japon ?",
+choices:["Pékin","Séoul","Tokyo","Bangkok"],
+answer:2,
+exp:"Tokyo est la capitale du Japon et l’une des plus grandes métropoles du monde."
+},
+{
+q:"Quelle est la monnaie utilisée en Chine ?",
+choices:["Yen","Won","Yuan","Roupie"],
+answer:2,
+exp:"La monnaie chinoise est le yuan (ou renminbi)."
+},
+{
+q:"Qui dirige principalement le pays en Inde ?",
+choices:[
+"Un empereur",
+"Un président seul",
+"Un Premier ministre et un gouvernement",
+"Un roi"
+],
+answer:2,
+exp:"L’Inde est une république dirigée par un Premier ministre et un gouvernement."
+},
+{
+q:"Quel pays d’Asie est le plus peuplé ?",
+choices:["Indonésie","Inde","Japon","Iran"],
+answer:1,
+exp:"L’Inde est aujourd’hui le pays le plus peuplé du monde."
+},
+{
+q:"Pourquoi certaines régions d’Asie ont-elles une très forte densité de population ?",
+choices:[
+"À cause des climats polaires",
+"Grâce aux plaines fertiles et à l’agriculture",
+"À cause des déserts",
+"En raison des montagnes"
+],
+answer:1,
+exp:"Les plaines agricoles (Inde, Chine) permettent de nourrir de grandes populations."
+},
+{
+q:"Quelle ressource naturelle est très importante au Moyen-Orient ?",
+choices:["Charbon","Pétrole","Bois","Diamants"],
+answer:1,
+exp:"Le pétrole est une ressource majeure du Moyen-Orient."
+},
+{
+q:"Quel monument célèbre se situe en Inde ?",
+choices:["La Grande Muraille","Le Taj Mahal","Angkor","Le mont Fuji"],
+answer:1,
+exp:"Le Taj Mahal est un monument emblématique de l’Inde."
+},
+{
+q:"Quel produit est massivement exporté par de nombreux pays asiatiques ?",
+choices:["Céréales uniquement","Produits industriels et technologiques","Or","Bois tropical seulement"],
+answer:1,
+exp:"De nombreux pays asiatiques exportent des produits industriels (électronique, textile)."
+},
+{
+q:"Quelle langue est la plus parlée en Chine ?",
+choices:["Japonais","Hindi","Mandarin","Coréen"],
+answer:2,
+exp:"Le mandarin est la langue officielle et la plus parlée en Chine."
+},
+{
+q:"Quel pays d’Asie est très densément peuplé malgré sa petite taille ?",
+choices:["Russie","Mongolie","Singapour","Kazakhstan"],
+answer:2,
+exp:"Singapour est une cité-État très petite et très densément peuplée."
+},
+{
+q:"L’Asie est caractérisée par :",
+choices:[
+"Une seule ethnie",
+"Une seule langue",
+"Une grande diversité ethnique",
+"Une population homogène"
+],
+answer:2,
+exp:"L’Asie rassemble une très grande diversité de peuples et d’ethnies."
+},
+{
+q:"Quelle religion est majoritaire en Inde ?",
+choices:["Islam","Christianisme","Hindouisme","Bouddhisme"],
+answer:2,
+exp:"L’hindouisme est la religion majoritaire en Inde."
+},
+{
+q:"Quelle religion est très présente au Moyen-Orient ?",
+choices:["Bouddhisme","Islam","Hindouisme","Christianisme uniquement"],
+answer:1,
+exp:"L’islam est largement majoritaire au Moyen-Orient."
+},
+{
+q:"Quel pays asiatique est très faiblement peuplé en raison de conditions naturelles difficiles ?",
+choices:["Bangladesh","Mongolie","Vietnam","Philippines"],
+answer:1,
+exp:"La Mongolie est peu peuplée à cause de son climat et de ses vastes steppes."
+},
+{
+q:"Pourquoi dit-on que l’Asie est un continent très divers ?",
+choices:[
+"Elle est uniquement rurale",
+"Elle est composée d’un seul État",
+"Elle présente de forts contrastes humains, culturels et économiques",
+"Elle est entièrement pauvre"
+],
+answer:2,
+exp:"L’Asie se caractérise par de forts contrastes de population, de richesse et de cultures."
+}
+];
+
+let index = 0, score = 0, locked = false;
+
+const questionEl = document.getElementById("question");
+const choicesEl = document.getElementById("choices");
+const explanationEl = document.getElementById("explanation");
+const scoreEl = document.getElementById("score");
+const qNumEl = document.getElementById("qNum");
+const progressEl = document.getElementById("progress");
+const nextBtn = document.getElementById("nextBtn");
+const endBtn = document.getElementById("endBtn");
+const resultEl = document.getElementById("result");
+
+function loadQuestion() {
+    locked = false;
+    explanationEl.style.display = "none";
+    nextBtn.style.display = "none";
+    const q = questions[index];
+    questionEl.textContent = q.q;
+    choicesEl.innerHTML = "";
+    q.choices.forEach((choice, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => answer(btn, i);
+        choicesEl.appendChild(btn);
+    });
+    qNumEl.textContent = index + 1;
+    progressEl.style.width = (index / questions.length * 100) + "%";
+}
+
+function answer(btn, i) {
+    if (locked) return;
+    locked = true;
+    const q = questions[index];
+    const buttons = choicesEl.querySelectorAll("button");
+
+    if (i === q.answer) {
+        btn.classList.add("correct");
+        score++;
+        scoreEl.textContent = score;
+    } else {
+        btn.classList.add("wrong");
+        buttons[q.answer].classList.add("correct");
+    }
+
+    explanationEl.textContent = "💡 " + q.exp;
+    explanationEl.style.display = "block";
+    nextBtn.style.display = "block";
+}
+
+nextBtn.onclick = () => {
+    index++;
+    if (index < questions.length) {
+        loadQuestion();
+    } else {
+        endQuiz();
+    }
+};
+
+endBtn.onclick = endQuiz;
+
+function endQuiz() {
+    quiz.innerHTML = "";
+    progressEl.style.width = "100%";
+    resultEl.innerHTML = `<strong>Résultat final :</strong><br>${score} / 15`;
+}
+
+loadQuestion();
+</script>
+</body>
+</html>

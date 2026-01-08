@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QCM 5e – La diversité de l'Asie</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .app {
+      width: 100%;
+      max-width: 1000px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 80vh;
+    }
+    .sidebar {
+      background: linear-gradient(180deg, #f8f9ff 0%, #e8ecff 100%);
+      border-right: 1px solid #d4d8ff;
+      padding: 2rem 1.5rem;
+    }
+    .main {
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 1.6rem;
+      margin-bottom: .5rem;
+      font-weight: 700;
+    }
+    .subtitle {
+      color: #7f8c8d;
+      font-size: .9rem;
+      line-height: 1.4;
+      margin-bottom: 2rem;
+    }
+    .metric {
+      background: rgba(255,255,255,0.7);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    .metric-label {
+      font-size: .85rem;
+      color: #95a5a6;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: .3rem;
+    }
+    .metric-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    .progress-bar {
+      height: 8px;
+      background: #ecf0f1;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: .5rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #27ae60, #2ecc71);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #ecf0f1;
+    }
+    .q-number {
+      background: #3498db;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: .9rem;
+    }
+    .question-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      flex: 1;
+    }
+    .question-text {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #34495e;
+      margin-bottom: 1.5rem;
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border-left: 4px solid #3498db;
+    }
+    .options {
+      display: grid;
+      gap: .8rem;
+    }
+    .option {
+      padding: 1rem 1.2rem;
+      border: 2px solid #e1e8ed;
+      border-radius: 12px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+    .option:hover:not(.answered) {
+      border-color: #3498db;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(52,152,219,0.15);
+    }
+    .option.correct { 
+      border-color: #27ae60; 
+      background: #d5f4e6;
+      color: #27ae60;
+    }
+    .option.wrong { 
+      border-color: #e74c3c; 
+      background: #fdf2f2;
+      color: #c0392b;
+    }
+    .option.answered {
+      cursor: default;
+    }
+    .feedback {
+      margin-top: 1.5rem;
+      padding: 1.2rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: none;
+      animation: slideIn 0.4s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 120px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(52,152,219,0.4);
+    }
+    .btn-success {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+    }
+    .btn-success:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(39,174,96,0.4);
+    }
+    .btn-danger {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+    }
+    .btn-danger:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(231,76,60,0.4);
+    }
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    .final-screen {
+      text-align: center;
+      padding: 3rem 2rem;
+      display: none;
+    }
+    .final-score {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 1rem 0;
+    }
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid #d4d8ff; padding: 1.5rem; }
+      .main { padding: 1.5rem; }
+      .controls { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar">
+      <h1>🌏 Asie</h1>
+      <p class="subtitle">La diversité de l'Asie (Moyen-Orient → Extrême-Orient)<br>Peuplement • Agriculture • Richesse</p>
+      
+      <div class="metric">
+        <div class="metric-label">Question actuelle</div>
+        <div class="metric-value" id="currentQ">1 / 15</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Score</div>
+        <div class="metric-value" id="score">0 / 15</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Répondues</div>
+        <div class="metric-value" id="answered">0 / 15</div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div id="quizContainer">
+        <div class="question-header">
+          <div class="q-number" id="qNumber">1</div>
+          <div class="question-title" id="qTitle"></div>
+        </div>
+        <div class="question-text" id="qText"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" id="prevBtn">← Précédent</button>
+        <button class="btn btn-success" id="finishBtn">✅ TERMINER</button>
+        <button class="btn btn-primary" id="nextBtn">Suivant →</button>
+      </div>
+
+      <div class="final-screen" id="finalScreen">
+        <div class="final-score" id="finalScore">12/15</div>
+        <h2>Félicitations !</h2>
+        <p id="finalMessage">Votre score final a été enregistré.</p>
+        <button class="btn btn-success" onclick="location.reload()">🔄 Refaire le QCM</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        title: "Caractéristique principale",
+        text: "L'Asie se caractérise d'abord par :",
+        choices: ["Une très faible population", "Une très forte population et de grands foyers de peuplement", "Une population concentrée uniquement dans les déserts", "Une population uniquement rurale"],
+        correct: 1,
+        explanation: "L'Asie abrite plus de 60% de la population mondiale avec des foyers majeurs (plaines du Gange, deltas, littoraux)."
+      },
+      {
+        title: "Foyer majeur de population",
+        text: "Parmi les régions suivantes, laquelle est un foyer majeur de population en Asie ?",
+        choices: ["Le désert d'Arabie", "Le plateau du Tibet", "Les plaines du Gange et du Brahmapoutre", "Les montagnes de l'Himalaya"],
+        correct: 2,
+        explanation: "Les plaines du Gange (Inde) et du Brahmapoutre (Bangladesh) forment l'un des plus grands foyers de population au monde grâce à leur fertilité."
+      },
+      {
+        title: "Grands vides de population",
+        text: "Les « grands vides » de population en Asie correspondent surtout :",
+        choices: ["Aux zones de mousson", "Aux hauts plateaux froids et aux grands déserts intérieurs", "Aux littoraux industriels", "Aux grandes vallées fluviales"],
+        correct: 1,
+        explanation: "Déserts (Gobi, Arabie, Taklamakan) et hauts plateaux (Tibet) sont très peu peuplés en raison du climat extrême."
+      },
+      {
+        title: "Densité de population",
+        text: "La forte densité de population dans les grandes plaines d'Asie s'explique notamment par :",
+        choices: ["La présence d'un climat polaire", "La présence de sols fertiles et la maîtrise de l'eau pour l'agriculture", "L'absence d'États organisés", "La proximité des volcans"],
+        correct: 1,
+        explanation: "Alluvions fertiles des grands fleuves + irrigation ancienne = agriculture intensive et forte densité."
+      },
+      {
+        title: "Maîtrise de l'eau",
+        text: "La « maîtrise de l'eau » dans les campagnes asiatiques désigne surtout :",
+        choices: ["La construction de barrages et de canaux d'irrigation", "L'interdiction d'utiliser les rivières", "L'utilisation exclusive de l'eau de pluie", "Le stockage de l'eau uniquement dans des lacs naturels"],
+        correct: 0,
+        explanation: "Canaux, digues, bassins, barrages depuis l'Antiquité permettent plusieurs récoltes de riz par an."
+      },
+      {
+        title: "Révolutions vertes",
+        text: "Les révolutions vertes mises en œuvre dans certains pays d'Asie ont pour objectif principal :",
+        choices: ["Diminuer la production agricole", "Intensifier les rendements pour nourrir une population nombreuse", "Supprimer l'irrigation", "Transformer tous les paysans en citadins"],
+        correct: 1,
+        explanation: "Semences améliorées + engrais + irrigation = doublement des rendements riz/paludrier."
+      },
+      {
+        title: "Pays agricole étudié",
+        text: "Parmi ces pays, lequel est un exemple classique d'Asie agricole densément peuplée et irriguée ?",
+        choices: ["Inde", "Norvège", "Brésil", "Algérie"],
+        correct: 0,
+        explanation: "L'Inde est un cas d'étude classique : rizières irriguées du Penjab, révolution verte depuis 1960."
+      },
+      {
+        title: "Révolution verte : moyens",
+        text: "La révolution verte repose notamment sur :",
+        choices: ["L'emploi exclusif de techniques traditionnelles", "L'utilisation de semences sélectionnées, d'engrais et de pesticides", "La diminution des surfaces cultivées", "L'abandon de l'irrigation"],
+        correct: 1,
+        explanation: "Trio gagnant : semences hybrides + engrais azotés + phytosanitaires + irrigation goutte-à-goutte."
+      },
+      {
+        title: "Conséquence positive",
+        text: "Une conséquence positive de la révolution verte est :",
+        choices: ["L'augmentation des famines", "L'amélioration de la sécurité alimentaire et la baisse des famines", "La disparition de toute pollution", "La baisse de la production de riz"],
+        correct: 1,
+        explanation: "Inde : de 200 millions de tonnes de céréales (1965) à 300+ millions aujourd'hui."
+      },
+      {
+        title: "Limite révolution verte",
+        text: "Une limite de la révolution verte est :",
+        choices: ["L'égalité parfaite entre tous les paysans", "L'absence totale d'engrais", "Les inégalités sociales et régionales, et les risques de pollution", "La disparition des grandes firmes agroalimentaires"],
+        correct: 2,
+        explanation: "Richesse des gros fermiers vs endettement des petits ; pollution des nappes par nitrates."
+      },
+      {
+        title: "Contrastes de richesse",
+        text: "En Asie, les contrastes de richesse se manifestent notamment par :",
+        choices: ["Des niveaux de vie identiques partout", "Des zones très riches (villes, littoraux) et des campagnes plus pauvres", "Une richesse uniquement dans les déserts", "Une richesse uniquement dans les montagnes"],
+        correct: 1,
+        explanation: "Singapour/Guangzhou (PIB/capita > 50k€) vs Bihar rural Inde (< 1k€)."
+      },
+      {
+        title: "Cité-État riche",
+        text: "Une cité-État asiatique très riche, fortement urbanisée et littorale est :",
+        choices: ["Singapour", "Mongolie", "Afghanistan", "Népal"],
+        correct: 0,
+        explanation: "Singapour : 5,6M hab., 720km², PIB/capita ~85k$, port mondial n°2."
+      },
+      {
+        title: "État-continent",
+        text: "Un État-continent en Asie, avec une très grande superficie et de forts contrastes internes, est :",
+        choices: ["Qatar", "Japon", "Inde", "Jordanie"],
+        correct: 2,
+        explanation: "Inde : 3,3M km², 1,4 milliard d'habitants, Mumbai ultra-moderne vs Bihar très rural."
+      },
+      {
+        title: "Diversité religieuse",
+        text: "La diversité religieuse de l'Asie se traduit par :",
+        choices: ["La présence d'une seule religion dominante", "La coexistence de plusieurs grandes religions (hindouisme, bouddhisme, islam…)", "L'absence de lieux de culte", "La disparition des pratiques religieuses"],
+        correct: 1,
+        explanation: "Islam (Indonésie, Pakistan), hindouisme (Inde), bouddhisme (Thaïlande, Japon), confucianisme (Chine)."
+      },
+      {
+        title: "Problématique générale",
+        text: "Pour répondre à « Comment se traduit la diversité de l'Asie ? », il faut montrer :",
+        choices: ["Un seul type de paysage rural", "Que l'Asie est uniforme et sans contrastes", "Des contrastes de population, de richesse, de cultures et de paysages", "Uniquement la présence de grandes villes"],
+        correct: 2,
+        explanation: "Du désert saoudien aux rizières vietnamiennes, des bidonvilles de Manille à Singapour : diversité extrême !"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = new Array(questions.length).fill(false);
+    let quizFinished = false;
+
+    const elements = {
+      currentQ: document.getElementById('currentQ'),
+      score: document.getElementById('score'),
+      answered: document.getElementById('answered'),
+      progressBar: document.getElementById('progressBar'),
+      qNumber: document.getElementById('qNumber'),
+      qTitle: document.getElementById('qTitle'),
+      qText: document.getElementById('qText'),
+      options: document.getElementById('options'),
+      feedback: document.getElementById('feedback'),
+      prevBtn: document.getElementById('prevBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      finishBtn: document.getElementById('finishBtn'),
+      quizContainer: document.getElementById('quizContainer'),
+      finalScreen: document.getElementById('finalScreen'),
+      finalScore: document.getElementById('finalScore'),
+      finalMessage: document.getElementById('finalMessage')
+    };
+
+    function updateUI() {
+      const answeredCount = answered.filter(Boolean).length;
+      
+      elements.currentQ.textContent = `${currentQuestion + 1} / ${questions.length}`;
+      elements.score.textContent = `${score} / ${questions.length}`;
+      elements.answered.textContent = `${answeredCount} / ${questions.length}`;
+      
+      const progress = ((currentQuestion) / (questions.length - 1)) * 100;
+      elements.progressBar.style.width = `${progress}%`;
+
+      elements.prevBtn.disabled = currentQuestion === 0;
+      elements.nextBtn.disabled = currentQuestion === questions.length - 1;
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      
+      elements.qNumber.textContent = currentQuestion + 1;
+      elements.qTitle.textContent = q.title;
+      elements.qText.textContent = q.text;
+      
+      elements.options.innerHTML = q.choices.map((choice, index) => 
+        `<div class="option" data-index="${index}">${choice}</div>`
+      ).join('');
+
+      elements.feedback.style.display = 'none';
+
+      // Ajouter les event listeners
+      document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', handleAnswer);
+      });
+
+      // Marquer si déjà répondu
+      if (answered[currentQuestion]) {
+        showAnswerFeedback();
+      }
+
+      updateUI();
+    }
+
+    function handleAnswer(e) {
+      if (quizFinished || answered[currentQuestion]) return;
+
+      const selectedIndex = parseInt(e.currentTarget.dataset.index);
+      const correctIndex = questions[currentQuestion].correct;
+      answered[currentQuestion] = true;
+
+      if (selectedIndex === correctIndex) {
+        score++;
+      }
+
+      showAnswerFeedback();
+      updateUI();
+    }
+
+    function showAnswerFeedback() {
+      const q = questions[currentQuestion];
+      const correctIndex = q.correct;
+      
+      document.querySelectorAll('.option').forEach((option, index) => {
+        option.classList.add('answered');
+        if (index === correctIndex) {
+          option.classList.add('correct');
+        }
+      });
+
+      elements.feedback.textContent = q.explanation;
+      elements.feedback.style.display = 'block';
+    }
+
+    function finishQuiz() {
+      quizFinished = true;
+      elements.quizContainer.style.display = 'none';
+      elements.finalScreen.style.display = 'block';
+      
+      const percentage = Math.round((score / questions.length) * 100);
+      elements.finalScore.textContent = `${score}/${questions.length}`;
+      
+      let message = '';
+      if (percentage >= 90) message = '🎉 Excellent ! Maîtrise parfaite du chapitre.';
+      else if (percentage >= 75) message = '👍 Très bon travail !';
+      else if (percentage >= 60) message = '✅ Bon niveau. Quelques révisions.';
+      else message = '📚 À consolider avec les cours.';
+      
+      elements.finalMessage.textContent = message;
+      updateUI();
+    }
+
+    // Event listeners
+    elements.prevBtn.addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+      }
+    });
+
+    elements.nextBtn.addEventListener('click', () => {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+      }
+    });
+
+    elements.finishBtn.addEventListener('click', finishQuiz);
+
+    // Initialisation
+    showQuestion();
+  </script>
+</body>
+</html>

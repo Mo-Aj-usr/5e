@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QCM – La diversité de l’Asie (5e)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #eef3f7;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    max-width: 800px;
+    width: 100%;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 12px;
+    margin-bottom: 20px;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #3fa9f5, #3ff5c4);
+}
+
+.question {
+    font-size: 1.15em;
+    margin-bottom: 10px;
+}
+
+.choices button {
+    width: 100%;
+    margin: 6px 0;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #f0f4f8;
+    font-size: 1em;
+}
+
+.choices button:hover {
+    background: #dbe9ff;
+}
+
+.correct {
+    background: #c8f7c5 !important;
+}
+
+.wrong {
+    background: #f7c5c5 !important;
+}
+
+.explanation {
+    background: #f9fbfd;
+    border-left: 5px solid #3fa9f5;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 0.95em;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.buttons button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#nextBtn {
+    background: #3fa9f5;
+    color: white;
+    display: none;
+}
+
+#endBtn {
+    background: #ff7b7b;
+    color: white;
+}
+
+#result {
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>QCM – La diversité de l’Asie (5e)</h1>
+
+<div class="dashboard">
+    <div>Score : <span id="score">0</span>/15</div>
+    <div>Question <span id="qNum">1</span>/15</div>
+</div>
+
+<div class="progress-bar">
+    <div class="progress" id="progress"></div>
+</div>
+
+<div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="choices" id="choices"></div>
+    <div class="explanation" id="explanation" style="display:none;"></div>
+</div>
+
+<div class="buttons">
+    <button id="nextBtn">Question suivante</button>
+    <button id="endBtn">TERMINER</button>
+</div>
+
+<div id="result"></div>
+</div>
+
+<script>
+const questions = [
+{
+q:"Quel continent est le plus peuplé du monde ?",
+choices:["Afrique","Europe","Asie","Amérique"],
+answer:2,
+exp:"L’Asie concentre plus de la moitié de la population mondiale, notamment en Chine, en Inde et en Asie du Sud-Est."
+},
+{
+q:"Quels sont les principaux foyers de population en Asie ?",
+choices:[
+"Les régions polaires",
+"L’Asie de l’Est, du Sud et du Sud-Est",
+"Les déserts du Moyen-Orient",
+"Les hautes montagnes"
+],
+answer:1,
+exp:"Les foyers majeurs se situent en Chine, en Inde et en Asie du Sud-Est, où les conditions agricoles sont favorables."
+},
+{
+q:"Comment appelle-t-on les régions très peu peuplées d’Asie ?",
+choices:["Foyers humains","Mégalopoles","Vides humains","Littoraux"],
+answer:2,
+exp:"Les déserts, les montagnes et les régions froides sont appelés des vides humains."
+},
+{
+q:"Quel milieu naturel explique en partie les faibles densités humaines ?",
+choices:[
+"Les plaines alluviales",
+"Les deltas",
+"Les déserts et hautes montagnes",
+"Les littoraux"
+],
+answer:2,
+exp:"Les déserts (Arabie, Gobi) et les hautes montagnes (Himalaya) sont difficiles à habiter."
+},
+{
+q:"Pourquoi les plaines d’Asie sont-elles densément peuplées ?",
+choices:[
+"Elles sont riches en pétrole",
+"Elles permettent une agriculture ancienne et productive",
+"Elles sont froides",
+"Elles sont isolées"
+],
+answer:1,
+exp:"La maîtrise de l’eau et les sols fertiles ont permis une agriculture ancienne et nourricière."
+},
+{
+q:"Quel élément a permis le développement des grands systèmes agricoles asiatiques ?",
+choices:[
+"La maîtrise de l’eau",
+"Le commerce maritime uniquement",
+"La présence de forêts",
+"L’industrialisation récente"
+],
+answer:0,
+exp:"Les systèmes d’irrigation sont essentiels, notamment pour la riziculture."
+},
+{
+q:"Quel pays est souvent étudié pour illustrer la révolution agricole en Asie ?",
+choices:["Japon","Inde","Arabie Saoudite","Russie"],
+answer:1,
+exp:"L’Inde est un exemple classique de révolution verte et de transformation agricole."
+},
+{
+q:"Qu’est-ce que la « révolution verte » ?",
+choices:[
+"Une révolution politique",
+"Une intensification agricole",
+"Un retour à l’agriculture traditionnelle",
+"Une déforestation massive"
+],
+answer:1,
+exp:"Elle repose sur des semences améliorées, des engrais, des pesticides et une meilleure irrigation."
+},
+{
+q:"Quel est un effet positif des révolutions agricoles ?",
+choices:[
+"Augmentation des famines",
+"Baisse des rendements",
+"Amélioration de la production alimentaire",
+"Abandon des campagnes"
+],
+answer:2,
+exp:"La révolution verte a permis de nourrir une population en forte croissance."
+},
+{
+q:"Quelle est une limite de ces transformations agricoles ?",
+choices:[
+"Une production trop faible",
+"Des inégalités et des problèmes environnementaux",
+"L’absence de techniques modernes",
+"La disparition des cultures"
+],
+answer:1,
+exp:"Elles entraînent pollution, forte consommation d’eau et inégalités sociales."
+},
+{
+q:"Où se concentrent les zones les plus riches en Asie ?",
+choices:[
+"Dans les régions désertiques",
+"Dans les régions polaires",
+"Sur les littoraux et grandes métropoles",
+"Dans les montagnes"
+],
+answer:2,
+exp:"Les littoraux sont mieux intégrés à la mondialisation et plus développés."
+},
+{
+q:"Comment appelle-t-on un État de très grande taille comme l’Inde ou la Chine ?",
+choices:[
+"Cité-État",
+"État-continent",
+"Royaume",
+"Fédération"
+],
+answer:1,
+exp:"La Chine et l’Inde sont des États-continents par leur taille et leur population."
+},
+{
+q:"Quel exemple correspond à une cité-État asiatique ?",
+choices:["Inde","Chine","Singapour","Iran"],
+answer:2,
+exp:"Singapour est un petit territoire très urbanisé et très riche."
+},
+{
+q:"Pourquoi les littoraux asiatiques attirent-ils populations et activités ?",
+choices:[
+"Ils sont isolés",
+"Ils sont pauvres",
+"Ils favorisent les échanges et le commerce",
+"Ils sont uniquement agricoles"
+],
+answer:2,
+exp:"Les ports et métropoles littorales sont des pôles économiques majeurs."
+},
+{
+q:"Quelle problématique résume l’étude de la diversité de l’Asie ?",
+choices:[
+"Pourquoi l’Asie est-elle vide ?",
+"Comment se traduit la diversité de l’Asie ?",
+"L’Asie est-elle un pays ?",
+"Pourquoi l’Asie est-elle pauvre ?"
+],
+answer:1,
+exp:"L’Asie se caractérise par de forts contrastes humains, économiques et territoriaux."
+}
+];
+
+let index = 0, score = 0, locked = false;
+
+const questionEl = document.getElementById("question");
+const choicesEl = document.getElementById("choices");
+const explanationEl = document.getElementById("explanation");
+const scoreEl = document.getElementById("score");
+const qNumEl = document.getElementById("qNum");
+const progressEl = document.getElementById("progress");
+const nextBtn = document.getElementById("nextBtn");
+const endBtn = document.getElementById("endBtn");
+const resultEl = document.getElementById("result");
+
+function loadQuestion() {
+    locked = false;
+    explanationEl.style.display = "none";
+    nextBtn.style.display = "none";
+    const q = questions[index];
+    questionEl.textContent = q.q;
+    choicesEl.innerHTML = "";
+    q.choices.forEach((choice, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = choice;
+        btn.onclick = () => answer(btn, i);
+        choicesEl.appendChild(btn);
+    });
+    qNumEl.textContent = index + 1;
+    progressEl.style.width = (index / questions.length * 100) + "%";
+}
+
+function answer(btn, i) {
+    if (locked) return;
+    locked = true;
+    const q = questions[index];
+    const buttons = choicesEl.querySelectorAll("button");
+
+    if (i === q.answer) {
+        btn.classList.add("correct");
+        score++;
+        scoreEl.textContent = score;
+    } else {
+        btn.classList.add("wrong");
+        buttons[q.answer].classList.add("correct");
+    }
+
+    explanationEl.textContent = "💡 " + q.exp;
+    explanationEl.style.display = "block";
+    nextBtn.style.display = "block";
+}
+
+nextBtn.onclick = () => {
+    index++;
+    if (index < questions.length) {
+        loadQuestion();
+    } else {
+        endQuiz();
+    }
+};
+
+endBtn.onclick = endQuiz;
+
+function endQuiz() {
+    quiz.innerHTML = "";
+    progressEl.style.width = "100%";
+    resultEl.innerHTML = `<strong>Résultat final :</strong><br>${score} / 15`;
+}
+
+loadQuestion();
+</script>
+</body>
+</html>

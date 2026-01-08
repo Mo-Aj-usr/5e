@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QCM 2 – Pays d'Asie : Fiches Pays</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+      min-height: 100vh;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .app {
+      width: 100%;
+      max-width: 1000px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 85vh;
+    }
+    .sidebar {
+      background: linear-gradient(180deg, #fff7f7 0%, #ffeef0 100%);
+      border-right: 1px solid #ffd1d8;
+      padding: 2rem 1.5rem;
+    }
+    .main {
+      padding: 2.5rem;
+      overflow-y: auto;
+    }
+    h1 {
+      color: #c44569;
+      font-size: 1.7rem;
+      margin-bottom: .5rem;
+      font-weight: 700;
+    }
+    .subtitle {
+      color: #e74c3c;
+      font-size: .95rem;
+      line-height: 1.5;
+      margin-bottom: 2.5rem;
+      font-weight: 500;
+    }
+    .metric {
+      background: rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 1.4rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 6px 20px rgba(255,182,193,0.2);
+      border: 1px solid rgba(255,182,193,0.3);
+    }
+    .metric-label {
+      font-size: .88rem;
+      color: #e67e22;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      margin-bottom: .4rem;
+      font-weight: 600;
+    }
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #c44569;
+      line-height: 1.2;
+    }
+    .progress-bar {
+      height: 10px;
+      background: #ffe4e6;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: .6rem;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #e74c3c, #c0392b);
+      width: 0%;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 5px;
+    }
+    .question-header {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 3px solid #ffe4e6;
+    }
+    .q-number {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 4px 15px rgba(231,76,60,0.3);
+    }
+    .question-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #8b1a2f;
+      flex: 1;
+    }
+    .question-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #5d2b3a;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, #fff7f7 0%, #ffeef0 100%);
+      padding: 2rem;
+      border-radius: 20px;
+      border: 2px solid rgba(231,76,60,0.1);
+      box-shadow: 0 8px 30px rgba(231,76,60,0.08);
+    }
+    .options {
+      display: grid;
+      gap: 1rem;
+    }
+    .option {
+      padding: 1.3rem 1.5rem;
+      border: 2px solid #ffd1d8;
+      border-radius: 16px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 1.05rem;
+      line-height: 1.5;
+      position: relative;
+      overflow: hidden;
+    }
+    .option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s;
+    }
+    .option:hover:not(.answered)::before {
+      left: 100%;
+    }
+    .option:hover:not(.answered) {
+      border-color: #e74c3c;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(231,76,60,0.2);
+    }
+    .option.correct { 
+      border-color: #27ae60; 
+      background: linear-gradient(135deg, #d5f4e6, #c8e6c9);
+      color: #1b5e20;
+    }
+    .option.wrong { 
+      border-color: #e74c3c; 
+      background: linear-gradient(135deg, #ffebee, #ffcdd2);
+      color: #b71c1c;
+    }
+    .option.answered {
+      cursor: default;
+    }
+    .feedback {
+      margin-top: 2rem;
+      padding: 1.8rem;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: none;
+      box-shadow: 0 10px 40px rgba(102,126,234,0.3);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+    .controls {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      min-width: 140px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(231,76,60,0.4);
+    }
+    .btn-success {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      color: white;
+    }
+    .btn-success:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(39,174,96,0.4);
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    .final-screen {
+      text-align: center;
+      padding: 4rem 2rem;
+      display: none;
+      grid-column: 1 / -1;
+    }
+    .final-score {
+      font-size: 4rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 1.5rem 0;
+    }
+    @media (max-width: 768px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid #ffd1d8; padding: 2rem; }
+      .main { padding: 2rem; }
+      .controls { flex-direction: column; }
+      .question-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar">
+      <h1>🌍 Asie</h1>
+      <p class="subtitle">Fiches pays : capitales • monnaies • population • ressources • exportations<br><strong>Données 2025-2026</strong></p>
+      
+      <div class="metric">
+        <div class="metric-label">Question actuelle</div>
+        <div class="metric-value" id="currentQ">1 / 15</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Score</div>
+        <div class="metric-value" id="score">0 / 15</div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">Répondues</div>
+        <div class="metric-value" id="answered">0 / 15</div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div id="quizContainer">
+        <div class="question-header">
+          <div class="q-number" id="qNumber">1</div>
+          <div class="question-title" id="qTitle">Quelle est la capitale...</div>
+        </div>
+        <div class="question-text" id="qText"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn btn-primary" id="prevBtn">← Précédent</button>
+        <button class="btn btn-success" id="finishBtn">✅ TERMINER</button>
+        <button class="btn btn-primary" id="nextBtn">Suivant →</button>
+      </div>
+
+      <div class="final-screen" id="finalScreen">
+        <div class="final-score" id="finalScore">13/15</div>
+        <h2 id="finalTitle">Excellent travail !</h2>
+        <p id="finalMessage">Maîtrise parfaite des fiches pays d'Asie.</p>
+        <button class="btn btn-success" onclick="location.reload()">🔄 Refaire le QCM</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        title: "🇮🇳 Inde",
+        text: "Quelle est la capitale politique de l'Inde ?",
+        choices: ["Bombay (Mumbai)", "Delhi", "Calcutta (Kolkata)", "Madras (Chennai)"],
+        correct: 1,
+        explanation: "New Delhi (capitale politique) ; Mumbai est la capitale économique.[web:32]"
+      },
+      {
+        title: "🇨🇳 Chine",
+        text: "Quelle est la capitale de la Chine ?",
+        choices: ["Shanghai", "Pékin", "Canton", "Hong Kong"],
+        correct: 1,
+        explanation: "Pékin (Beijing) est la capitale depuis 1949. Shanghai = capitale économique."
+      },
+      {
+        title: "🇯🇵 Japon",
+        text: "Quelle est la capitale du Japon et son chef de gouvernement actuel ?",
+        choices: ["Tokyo / Premier ministre Shigeru Ishiba", "Osaka / Empereur", "Kyoto / Maire", "Hiroshima / Gouverneur"],
+        correct: 0,
+        explanation: "Tokyo (capitale depuis 1868) ; Shigeru Ishiba est Premier ministre depuis 2024."
+      },
+      {
+        title: "🇮🇩 Indonésie",
+        text: "Quelle est la nouvelle capitale de l'Indonésie (depuis 2024) ?",
+        choices: ["Jakarta", "Nusantara", "Surabaya", "Bandung"],
+        correct: 1,
+        explanation: "Nusantara (Kalimantan) remplace Jakarta ; nouvelle capitale écologique inaugurée 2024."
+      },
+      {
+        title: "🇹🇭 Thaïlande",
+        text: "Quelle est la monnaie de la Thaïlande ?",
+        choices: ["Baht thaïlandais", "Rupiah", "Rupee", "Yuan"],
+        correct: 0,
+        explanation: "1 THB ≈ 0,027€ ; monnaie stable liée au tourisme."
+      },
+      {
+        title: "🇸🇬 Singapour",
+        text: "Quelle est la population de Singapour (2025) et sa densité ?",
+        choices: ["5,9M hab. / 8 300 hab/km²", "2M hab. / 1 500 hab/km²", "10M hab. / 20 000 hab/km²", "1M hab. / 500 hab/km²"],
+        correct: 0,
+        explanation: "5,92M hab. (2025) sur 728 km² → densité record en Asie : 8 300 hab/km².[web:38]"
+      },
+      {
+        title: "🇮🇳 Inde",
+        text: "Quelle est la principale ressource naturelle de l'Inde ?",
+        choices: ["Pétrole", "Charbon", "Diamants", "Or"],
+        correct: 1,
+        explanation: "Inde = 3e producteur mondial de charbon ; 97% de sa production énergétique."
+      },
+      {
+        title: "🇸🇦 Arabie Saoudite",
+        text: "Quel est le principal produit d'exportation de l'Arabie Saoudite ?",
+        choices: ["Dattes", "Pétrole", "Tapis", "Épices"],
+        correct: 1,
+        explanation: "Pétrole : 12% production mondiale ; 80% des exportations.[web:31]"
+      },
+      {
+        title: "🇻🇳 Vietnam",
+        text: "Quels sont les principaux produits d'exportation du Vietnam ?",
+        choices: ["Pétrole, gaz", "Riz, café, électronique", "Soie, thé", "Armes"],
+        correct: 1,
+        explanation: "2e exportateur mondial de café ; riz n°2 mondial ; électronique (Samsung)."
+      },
+      {
+        title: "🇰🇷 Corée du Sud",
+        text: "Quelle est la langue officielle de la Corée du Sud ?",
+        choices: ["Mandarin", "Coréen (Hangul)", "Japonais", "Anglais"],
+        correct: 1,
+        explanation: "Hangul (alphabet unique créé en 1443 par le roi Sejong).[web:32]"
+      },
+      {
+        title: "🇵🇰 Pakistan",
+        text: "Quelle est la religion majoritaire au Pakistan ?",
+        choices: ["Hindouisme", "Islam (sunnite)", "Bouddhisme", "Christianisme"],
+        correct: 1,
+        explanation: "97% musulmans sunnites ; 2e population musulmane mondiale après l'Indonésie.[web:36]"
+      },
+      {
+        title: "🇹🇭 Thaïlande",
+        text: "Quelle est la religion majoritaire en Thaïlande ?",
+        choices: ["Islam", "Bouddhisme theravada", "Christianisme", "Animisme"],
+        correct: 1,
+        explanation: "95% bouddhistes theravada ; 6 000 temples (wats) dans le pays."
+      },
+      {
+        title: "🇮🇩 Indonésie",
+        text: "Quelle est la principale ethnie en Indonésie ?",
+        choices: ["Malais", "Javannais", "Sumatrans", "Balinaise"],
+        correct: 1,
+        explanation: "Javannais : 40% de la population (110M) sur 6% du territoire."
+      },
+      {
+        title: "🇲🇾 Malaisie",
+        text: "Quelle est la capitale de la Malaisie et sa monnaie ?",
+        choices: ["Singapour / Ringgit", "Kuala Lumpur / Ringgit malaisien", "Penang / Dollar", "Sabah / Peso"],
+        correct: 1,
+        explanation: "Kuala Lumpur (capitale) ; Ringgit malaisien (MYR).[web:32]"
+      },
+      {
+        title: "🇵🇭 Philippines",
+        text: "Quelle est la religion majoritaire aux Philippines ?",
+        choices: ["Islam", "Bouddhisme", "Catholicisme", "Protestantisme"],
+        correct: 2,
+        explanation: "86% catholiques ; seul pays majoritairement catholique en Asie.[web:36]"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = new Array(questions.length).fill(false);
+    let quizFinished = false;
+
+    const elements = {
+      currentQ: document.getElementById('currentQ'),
+      score: document.getElementById('score'),
+      answered: document.getElementById('answered'),
+      progressBar: document.getElementById('progressBar'),
+      qNumber: document.getElementById('qNumber'),
+      qTitle: document.getElementById('qTitle'),
+      qText: document.getElementById('qText'),
+      options: document.getElementById('options'),
+      feedback: document.getElementById('feedback'),
+      prevBtn: document.getElementById('prevBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      finishBtn: document.getElementById('finishBtn'),
+      quizContainer: document.getElementById('quizContainer'),
+      finalScreen: document.getElementById('finalScreen'),
+      finalScore: document.getElementById('finalScore'),
+      finalTitle: document.getElementById('finalTitle'),
+      finalMessage: document.getElementById('finalMessage')
+    };
+
+    function updateUI() {
+      const answeredCount = answered.filter(Boolean).length;
+      
+      elements.currentQ.textContent = `${currentQuestion + 1} / ${questions.length}`;
+      elements.score.textContent = `${score} / ${questions.length}`;
+      elements.answered.textContent = `${answeredCount} / ${questions.length}`;
+      
+      const progress = ((currentQuestion) / (questions.length - 1)) * 100;
+      elements.progressBar.style.width = `${progress}%`;
+
+      elements.prevBtn.disabled = currentQuestion === 0;
+      elements.nextBtn.disabled = currentQuestion === questions.length - 1;
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      
+      elements.qNumber.textContent = currentQuestion + 1;
+      elements.qTitle.innerHTML = q.title;
+      elements.qText.textContent = q.text;
+      
+      elements.options.innerHTML = q.choices.map((choice, index) => 
+        `<div class="option" data-index="${index}">${choice}</div>`
+      ).join('');
+
+      elements.feedback.style.display = 'none';
+
+      document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', handleAnswer);
+      });
+
+      if (answered[currentQuestion]) {
+        showAnswerFeedback();
+      }
+
+      updateUI();
+    }
+
+    function handleAnswer(e) {
+      if (quizFinished || answered[currentQuestion]) return;
+
+      const selectedIndex = parseInt(e.currentTarget.dataset.index);
+      const correctIndex = questions[currentQuestion].correct;
+      answered[currentQuestion] = true;
+
+      if (selectedIndex === correctIndex) {
+        score++;
+      }
+
+      showAnswerFeedback();
+      updateUI();
+    }
+
+    function showAnswerFeedback() {
+      const q = questions[currentQuestion];
+      const correctIndex = q.correct;
+      
+      document.querySelectorAll('.option').forEach((option, index) => {
+        option.classList.add('answered');
+        if (index === correctIndex) {
+          option.classList.add('correct');
+        }
+      });
+
+      elements.feedback.textContent = q.explanation;
+      elements.feedback.style.display = 'block';
+    }
+
+    function finishQuiz() {
+      quizFinished = true;
+      elements.quizContainer.style.display = 'none';
+      elements.finalScreen.style.display = 'grid';
+      
+      const percentage = Math.round((score / questions.length) * 100);
+      elements.finalScore.textContent = `${score}/${questions.length}`;
+      
+      let title = '', message = '';
+      if (percentage >= 90) {
+        title = '🇨🇳🇮🇳🇯🇵 Excellent !';
+        message = 'Maîtrise parfaite des fiches pays d\'Asie.';
+      } else if (percentage >= 75) {
+        title = '🇹🇭🇻🇳🇮🇩 Très bon !';
+        message = 'Excellente connaissance géographique.';
+      } else if (percentage >= 60) {
+        title = '🇵🇭🇲🇾🇸🇬 Bon niveau';
+        message = 'Quelques révisions pour être parfait.';
+      } else {
+        title = '🇵🇰🇱🇦🇲🇲 À consolider';
+        message = 'Revoir les fiches pays avec les cartes.';
+      }
+      
+      elements.finalTitle.textContent = title;
+      elements.finalMessage.textContent = message;
+    }
+
+    elements.prevBtn.addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+      }
+    });
+
+    elements.nextBtn.addEventListener('click', () => {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+      }
+    });
+
+    elements.finishBtn.addEventListener('click', finishQuiz);
+
+    showQuestion();
+  </script>
+</body>
+</html>
