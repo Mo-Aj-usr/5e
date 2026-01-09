@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏰 Cours Histoire 5e - L'Empire Carolingien</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);min-height:100vh;padding:20px;line-height:1.6;color:#333}
+        .container{max-width:1000px;margin:0 auto;background:#fff;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.1);overflow:hidden}
+        header{background:linear-gradient(135deg,#1a365d,#2d4a7b);color:white;padding:30px 40px;text-align:center;position:relative}
+        header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ffd700,#ffed4e,#ffd700)}
+        h1{font-size:2.5em;margin-bottom:10px;font-weight:700;text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
+        .subtitle{font-size:1.2em;opacity:0.95}
+        nav{background:#f8f9fa;padding:0;border-bottom:1px solid #e2e8f0}
+        .nav-btn{display:inline-block;padding:15px 25px;color:#4a5568;font-weight:600;cursor:pointer;transition:all 0.3s;border-bottom:3px solid transparent}
+        .nav-btn:hover{color:#1a365d;border-bottom-color:#4299e1}
+        .nav-btn.active{color:#1a365d;border-bottom-color:#667eea;font-weight:700}
+        .section{display:none;padding:40px;background:#fafbfc;min-height:80vh}
+        .section.active{display:block;animation:fadeIn 0.5s ease-in}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        h2{font-size:2em;color:#1a365d;margin-bottom:20px;border-left:5px solid #667eea;padding-left:20px}
+        h3{font-size:1.5em;color:#2d3748;margin:25px 0 15px;font-weight:600}
+        .highlight{background:linear-gradient(120deg,#a8edea 0%,#fed6e3 100%);padding:20px;border-radius:15px;margin:20px 0;box-shadow:0 5px 15px rgba(0,0,0,0.1)}
+        .quote{position:relative;background:#fff5d6;padding:25px;border-left:6px solid #f6ad55;margin:25px 0;border-radius:0 10px 10px 0;font-style:italic;box-shadow:0 5px 15px rgba(246,173,85,0.2)}
+        .quote::before{content:'"';font-size:4em;color:#f6ad55;opacity:0.3;position:absolute;left:-10px;top:-10px}
+        .carte{max-width:100%;height:350px;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin:20px 0;display:block}
+        .enluminure{max-width:100%;height:300px;border-radius:15px;margin:20px auto;display:block;box-shadow:0 15px 35px rgba(0,0,0,0.3)}
+        .traité{background:#e6fffa;padding:30px;border-radius:15px;margin:25px 0;text-align:center;font-size:1.1em}
+        .traité div{margin:10px 0;padding:15px;background:#b2f5ea;border-radius:10px;font-weight:600}
+        ul{list-style:none;padding-left:0}
+        ul li{position:relative;padding:12px 0;padding-left:30px;margin:8px 0;background:rgba(102,126,234,0.05);border-radius:8px}
+        ul li::before{content:'✦';position:absolute;left:0;color:#667eea;font-weight:bold}
+        .activite{background:#fff3cd;padding:25px;border-radius:15px;margin:30px 0;border-left:6px solid #ffc107}
+        .vocabulaire{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin:25px 0}
+        .vocab{background:#e6fffa;padding:15px;border-radius:10px;text-align:center;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+        @media(max-width:768px){.container{margin:10px;border-radius:15px}.section{padding:20px}h1{font-size:2em}h2{font-size:1.6em}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏰 L'Empire Carolingien</h1>
+            <p class="subtitle">Cours complet Histoire 5e - Charlemagne et la Renaissance carolingienne</p>
+        </header>
+
+        <nav>
+            <div class="nav-btn active" data-section="1">1. Naissance Empire</div>
+            <div class="nav-btn" data-section="2">2. Guerres Chrétiennes</div>
+            <div class="nav-btn" data-section="3">3. Organisation Pouvoir</div>
+            <div class="nav-btn" data-section="4">4. Renaissance Culture</div>
+            <div class="nav-btn" data-section="5">5. Déclin & Partage</div>
+            <div class="nav-btn" data-section="6">6. Héritage</div>
+        </nav>
+
+        <div id="section1" class="section active">
+            <h2>1. Naissance d'un nouvel empire (768-814)</h2>
+            <div class="highlight">
+                <strong>Charlemagne</strong>, roi des Francs dès <strong>768</strong>, succède à son père <strong>Pépin le Bref</strong> 
+                (fondateur dynastie carolingienne après Charles Martel).
+            </div>
+            
+            <div class="quote">
+                « Le jour de Noël 800, le très pieux empereur Charles portait la couronne impériale offerte par Dieu au pontife romain Léon. »
+                <div style="font-size:0.9em;margin-top:15px;color:#666">— Éginhard, <em>Vie de Charlemagne</em> (IXe siècle)</div>
+            </div>
+            
+            <p><strong>25 décembre 800</strong> : Le pape <strong>Léon III</strong> sacre Charlemagne empereur à Rome. 
+            Renaissance d'un empire chrétien en Occident, 300 ans après chute de Rome (476) !</p>
+        </div>
+
+        <div id="section2" class="section">
+            <h2>2. Un empire chrétien et guerrier</h2>
+            <p>Charlemagne mène <strong>50 campagnes militaires</strong> :</p>
+            <ul>
+                <li><strong>Saxons (772-804)</strong> : Peuple païen du Nord, forcé à se convertir</li>
+                <li><strong>Lombards (774)</strong> : Conquête Italie</li>
+                <li><strong>Sarrasins (778)</strong> : Raid jusqu'à rivière Ebre</li>
+            </ul>
+            
+            <div class="quote">
+                « Il fit des Saxons un peuple chrétien par le fer et le feu. »
+                <div style="font-size:0.9em;margin-top:15px;color:#666">— Annales royales</div>
+            </div>
+            
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Kr%C3%B6nung_Karl_des_Gro%C3%9Fen_durch_Papst_Leo_III._%28P%C3%A4pstliche_offizielle_Darstellung%29.jpg/800px-Kr%C3%B6nung_Karl_des_Gro%C3%9Fen_durch_Papst_Leo_III._%28P%C3%A4pstliche_offizielle_Darstellung%29.jpg" 
+                 alt="Couronnement Charlemagne" class="enluminure">
+        </div>
+
+        <div id="section3" class="section">
+            <h2>3. Organisation du pouvoir</h2>
+            <div class="highlight">
+                <strong>Capitale : Aix-la-Chapelle</strong> - Palais école + chapelle octogonale inspirée Byzance
+            </div>
+            
+            <ul>
+                <li><strong>Comtés</strong> : Dirigés par comtes (nobles loyaux)</li>
+                <li><strong>Missi dominici</strong> : Inspecteurs royaux parcourant l'empire</li>
+                <li><strong>Capitulaires</strong> : Lois écrites en latin</li>
+            </ul>
+        </div>
+
+        <div id="section4" class="section">
+            <h2>4. Renaissance carolingienne</h2>
+            <p><strong>Alcuin d'York (732-804)</strong>, conseiller de Charlemagne, relance culture :</p>
+            <ul>
+                <li><strong>Écoles</strong> monastères + palais</li>
+                <li><strong>Minuscule caroline</strong> : Écriture claire → gothique</li>
+                <li><strong>Copie manuscrits</strong> : Bible, Isidore de Séville</li>
+            </ul>
+            
+            <div class="quote">
+                « Que chaque homme libre ait connaissances en grammaire, écriture et chant. »
+                <div style="font-size:0.9em;margin-top:15px;color:#666"><strong>Capitulaire de 802</strong></div>
+            </div>
+        </div>
+
+        <div id="section5" class="section">
+            <h2>5. Déclin et partage (814-843)</h2>
+            <div class="highlight">
+                <strong>814</strong> : Mort Charlemagne. <strong>Louis le Pieux</strong> peine à tenir empire.
+            </div>
+            
+            <div class="traité">
+                <h3>✂️ Traité de Verdun (843)</h3>
+                <div><strong>Lothaire</strong> : Francie médiane (Allemagne + Italie)</div>
+                <div><strong>Louis Germanique</strong> : Francie orientale (Allemagne)</div>
+                <div><strong>Charles Chauve</strong> : Francie occidentale (France)</div>
+            </div>
+            
+            <p><strong>Invasions</strong> : Vikings, Sarrasins, Hongrois → Fin empire.</p>
+        </div>
+
+        <div id="section6" class="section">
+            <h2>6. Héritage de Charlemagne</h2>
+            <div class="highlight">
+                L'Empire carolingien pose bases <strong>Europe moderne</strong> :
+            </div>
+            <ul>
+                <li><strong>Latin</strong> : Unifie Église + administration</li>
+                <li><strong>Départements</strong> ← comtés</li>
+                <li><strong>Renaissance</strong> → Moyen Âge central</li>
+            </ul>
+            
+            <div class="activite">
+                <h3>🎯 Activité</h3>
+                <strong>1.</strong> Localise <em>Aix-la-Chapelle</em> sur carte moderne<br>
+                <strong>2.</strong> Compare Empire carolingien ↔ Empire byzantin (simultané)<br>
+                <strong>3.</strong> Pourquoi Charlemagne = nouvel <em>Auguste</em> ?
+            </div>
+            
+            <div class="vocabulaire">
+                <div class="vocab"><strong>Missi dominici</strong><br>Inspecteurs royaux</div>
+                <div class="vocab"><strong>Minuscule caroline</strong><br>Nouvelle écriture</div>
+                <div class="vocab"><strong>Capitulaires</strong><br>Lois écrites</div>
+                <div class="vocab"><strong>Sacre 800</strong><br>Couronnement pape</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const navBtns=document.querySelectorAll('.nav-btn');
+        const sections=document.querySelectorAll('.section');
+        
+        navBtns.forEach(btn=>{
+            btn.onclick=()=>{
+                const sectionId=btn.dataset.section;
+                
+                // Update active nav
+                navBtns.forEach(b=>b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Show section
+                sections.forEach(s=>s.classList.remove('active'));
+                document.getElementById(`section${sectionId}`).classList.add('active');
+                
+                // Scroll top
+                document.querySelector('.container').scrollIntoView({behavior:'smooth'});
+            }
+        });
+    </script>
+</body>
+</html>
