@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>QCM – L’Empire carolingien (5e)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6fa;
+}
+header {
+    background: #2c3e50;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+#dashboard {
+    display: flex;
+    justify-content: space-around;
+    background: #ecf0f1;
+    padding: 10px;
+    font-weight: bold;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+}
+.question {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+.answers button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    text-align: left;
+}
+.answers button:hover {
+    background: #e8f0fe;
+}
+.answers button.correct {
+    background: #c8e6c9;
+    border-color: #2e7d32;
+}
+.answers button.wrong {
+    background: #ffcdd2;
+    border-color: #c62828;
+}
+.explanation {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f1f8e9;
+    border-left: 5px solid #7cb342;
+}
+.media img {
+    max-width: 100%;
+    margin-top: 15px;
+    border-radius: 6px;
+}
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+.navigation button {
+    padding: 10px 20px;
+    font-size: 1em;
+}
+footer {
+    text-align: center;
+    font-size: 0.9em;
+    padding: 10px;
+    color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>QCM – L’Empire carolingien</h1>
+    <p>Histoire – Classe de 5e</p>
+</header>
+
+<div id="dashboard">
+    <div>Question : <span id="num">1</span> / 15</div>
+    <div>Score : <span id="score">0</span></div>
+</div>
+
+<div class="container">
+    <div class="question" id="question"></div>
+    <div class="media" id="media"></div>
+    <div class="answers" id="answers"></div>
+    <div class="explanation" id="explanation" style="display:none;"></div>
+
+    <div class="navigation">
+        <button onclick="prevQuestion()">⬅ Précédent</button>
+        <button onclick="nextQuestion()">Suivant ➡</button>
+        <button onclick="finishQuiz()">Terminer</button>
+    </div>
+</div>
+
+<footer>
+    QCM interactif – Empire carolingien – © Histoire 5e
+</footer>
+
+<script>
+const questions = [
+{
+q: "Qui est le fondateur de la dynastie carolingienne ?",
+a: ["Charlemagne", "Pépin le Bref", "Charles Martel", "Louis le Pieux"],
+correct: 1,
+exp: "Pépin le Bref devient roi des Francs en 751 après avoir déposé le dernier roi mérovingien.",
+media: ""
+},
+{
+q: "Quel rôle exerçait Charles Martel avant les Carolingiens ?",
+a: ["Roi", "Empereur", "Maire du palais", "Pape"],
+correct: 2,
+exp: "Charles Martel était maire du palais, c’est-à-dire le principal dirigeant du royaume à la place du roi.",
+media: ""
+},
+{
+q: "Pourquoi Pépin le Bref se fait-il sacrer par le pape ?",
+a: [
+"Pour devenir empereur",
+"Pour obtenir le soutien de l’Église",
+"Pour gagner une guerre",
+"Pour devenir maire du palais"
+],
+correct: 1,
+exp: "Le sacre donne une légitimité religieuse à son pouvoir et renforce l’alliance entre les Carolingiens et l’Église.",
+media: ""
+},
+{
+q: "Qui est Charlemagne ?",
+a: [
+"Le fils de Louis le Pieux",
+"Le petit-fils de Charles Martel",
+"Le frère de Pépin le Bref",
+"Un pape"
+],
+correct: 1,
+exp: "Charlemagne est le petit-fils de Charles Martel et le fils de Pépin le Bref.",
+media: ""
+},
+{
+q: "En quelle année Charlemagne est-il sacré empereur ?",
+a: ["751", "800", "814", "843"],
+correct: 1,
+exp: "Charlemagne est sacré empereur d’Occident à Rome, le jour de Noël 800.",
+media: ""
+},
+{
+q: "Quel territoire montre cette carte ?",
+a: [
+"L’Empire romain",
+"L’Empire carolingien",
+"La Gaule romaine",
+"La France actuelle"
+],
+correct: 1,
+exp: "La carte représente l’Empire carolingien à son apogée sous Charlemagne.",
+media: `<img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Carolignian_Empire_814.svg" alt="Carte Empire carolingien">`
+},
+{
+q: "Que montre cette enluminure ?",
+a: [
+"Le sacre de Pépin le Bref",
+"Charlemagne recevant l’école",
+"Une attaque viking",
+"Charlemagne entouré de savants"
+],
+correct: 3,
+exp: "L’enluminure illustre la Renaissance carolingienne et le rôle de Charlemagne dans le développement de l’instruction.",
+media: `<img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Charlemagne_and_Alcuin.jpg" alt="Charlemagne et Alcuin">`
+},
+{
+q: "Comment Charlemagne gouverne-t-il son empire ?",
+a: [
+"Avec des présidents",
+"Avec les missi dominici",
+"Avec des députés élus",
+"Avec les papes"
+],
+correct: 1,
+exp: "Les missi dominici sont envoyés pour contrôler les comtes au nom de l’empereur.",
+media: ""
+},
+{
+q: "Comment s’appellent les lois de Charlemagne ?",
+a: ["Capitulaires", "Constitutions", "Ordonnances", "Édits"],
+correct: 0,
+exp: "Les capitulaires sont des textes officiels organisés en chapitres.",
+media: ""
+},
+{
+q: "Qu’est-ce que la Renaissance carolingienne ?",
+a: [
+"Une période artistique antique",
+"Un renouveau culturel et intellectuel",
+"Une révolution industrielle",
+"Une réforme militaire"
+],
+correct: 1,
+exp: "Charlemagne encourage l’éducation, les écoles et la copie des manuscrits.",
+media: ""
+},
+{
+q: "Qui succède à Charlemagne ?",
+a: ["Charles le Chauve", "Louis le Pieux", "Lothaire", "Pépin"],
+correct: 1,
+exp: "Louis le Pieux est le fils de Charlemagne et lui succède en 814.",
+media: ""
+},
+{
+q: "Quel texte organise le partage de l’empire en 843 ?",
+a: [
+"Traité de Verdun",
+"Serments de Strasbourg",
+"Ordinatio Imperii",
+"Édit de Pîtres"
+],
+correct: 0,
+exp: "Le traité de Verdun divise l’empire entre les trois petits-fils de Charlemagne.",
+media: ""
+},
+{
+q: "Pourquoi l’empire carolingien s’affaiblit-il ?",
+a: [
+"À cause des invasions et des divisions",
+"À cause de la peste",
+"À cause de Rome",
+"À cause de l’école"
+],
+correct: 0,
+exp: "Les guerres entre héritiers et les invasions vikings affaiblissent le pouvoir royal.",
+media: ""
+},
+{
+q: "Qui sont les Vikings ?",
+a: [
+"Des chevaliers francs",
+"Des peuples du Nord",
+"Des Romains",
+"Des moines"
+],
+correct: 1,
+exp: "Les Vikings viennent de Scandinavie et pillent les territoires carolingiens.",
+media: ""
+},
+{
+q: "Que devient le pouvoir royal après les Carolingiens ?",
+a: [
+"Il disparaît totalement",
+"Il est renforcé",
+"Il passe aux seigneurs",
+"Il devient démocratique"
+],
+correct: 2,
+exp: "Les comtes et ducs deviennent de plus en plus puissants : c’est le début de la féodalité.",
+media: ""
+}
+];
+
+let current = 0;
+let score = 0;
+let answered = Array(15).fill(false);
+
+function loadQuestion() {
+    const q = questions[current];
+    document.getElementById("num").textContent = current + 1;
+    document.getElementById("score").textContent = score;
+    document.getElementById("question").textContent = q.q;
+    document.getElementById("media").innerHTML = q.media || "";
+    document.getElementById("explanation").style.display = "none";
+    const answers = document.getElementById("answers");
+    answers.innerHTML = "";
+    q.a.forEach((text, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = text;
+        btn.onclick = () => checkAnswer(btn, i);
+        answers.appendChild(btn);
+    });
+}
+
+function checkAnswer(btn, i) {
+    if (answered[current]) return;
+    answered[current] = true;
+    const q = questions[current];
+    const buttons = document.querySelectorAll(".answers button");
+    buttons[q.correct].classList.add("correct");
+    if (i !== q.correct) btn.classList.add("wrong");
+    else score++;
+    document.getElementById("score").textContent = score;
+    document.getElementById("explanation").textContent = q.exp;
+    document.getElementById("explanation").style.display = "block";
+}
+
+function nextQuestion() {
+    if (current < questions.length - 1) {
+        current++;
+        loadQuestion();
+    }
+}
+
+function prevQuestion() {
+    if (current > 0) {
+        current--;
+        loadQuestion();
+    }
+}
+
+function finishQuiz() {
+    alert("Quiz terminé ! Score : " + score + " / 15");
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
