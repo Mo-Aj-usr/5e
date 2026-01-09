@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM 5e - Empire Carolingien ✅</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:Arial,sans-serif;background:#f0f4f8;max-width:900px;margin:0 auto;padding:20px;color:#333}
+        h1{text-align:center;color:#1a365d;margin-bottom:20px;font-size:1.8em}
+        #dashboard{background:#fff;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);text-align:center;font-size:1.2em;font-weight:bold;margin-bottom:20px}
+        #question{background:#fff;padding:30px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.1);margin-bottom:20px}
+        .option{display:block;margin:12px 0;padding:15px;border:2px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all 0.3s;background:#f8fafc}
+        .option:hover:not(.correct):not(.incorrect){border-color:#4299e1;background:#ebf8ff;transform:translateY(-2px)}
+        .correct{border-color:#48bb78!important;background:#c6f6d5!important}
+        .incorrect{border-color:#f56565!important;background:#fed7d7!important}
+        .option input{margin-right:12px;transform:scale(1.2);accent-color:#4299e1}
+        button{padding:12px 24px;font-size:1em;margin:5px;border:none;border-radius:8px;cursor:pointer;background:#4299e1;color:white;font-weight:600;transition:all 0.2s;box-shadow:0 2px 8px rgba(66,153,225,0.3)}
+        button:hover:not(:disabled){background:#3182ce;transform:translateY(-1px);box-shadow:0 4px 12px rgba(66,153,225,0.4)}
+        button:disabled{background:#a0aec0;cursor:not-allowed;transform:none;box-shadow:none}
+        .explanation{margin-top:20px;padding:20px;background:#bee3f8;border-left:5px solid #4299e1;border-radius:8px}
+        .validate-section{margin-top:20px;padding:15px;background:#f7fafc;border:2px dashed #4299e1;border-radius:8px;text-align:center}
+        #nav{text-align:center;margin-top:20px}
+        @media(max-width:600px){body{padding:10px}#nav button{width:45%;margin:2.5px}}
+    </style>
+</head>
+<body>
+    <h1>📚 QCM Histoire 5e – L'Empire Carolingien</h1>
+    <div id="dashboard">Question <span id="qnum">1</span>/15 | Score: <span id="score">0</span>/<span id="answered">0</span></div>
+    <div id="question"></div>
+    <div id="nav">
+        <button id="prev">← Précédent</button>
+        <button id="next">Suivant →</button>
+        <button id="finish">🏆 Terminer</button>
+    </div>
+
+    <script>
+        const questions=[
+            {q:"En quelle année Charlemagne est-il couronné empereur?",o:["768","800","814","843"],c:1,e:"25 décembre 800, à Rome, par le pape Léon III."},
+            {q:"Fondateur de la dynastie carolingienne?",o:["Charlemagne","Pépin le Bref","Charles Martel","Clovis"],c:2,e:"Charles Martel (aïeul), Pépin le Bref (1er roi)."},
+            {q:"Capitale de l'Empire carolingien?",o:["Rome","Paris","Aix-la-Chapelle","Constantinople"],c:2,e:"Aix-la-Chapelle (Aachen)."},
+            {q:"Comment Charlemagne contrôle-t-il les comtes?",o:["Armées privées","Missi dominici","Taxes directes","Alliances"],c:1,e:"Les missi dominici inspectent les comtés."},
+            {q:"Traité qui divise l'empire en 843?",o:["Paris","Verdun","Aix-la-Chapelle","Rome"],c:1,e:"Verdun: Lothaire, Louis, Charles."},
+            {q:"Qui couronne Charlemagne (enluminure)?",i:"https://www.album-online.com/photos/prev/NmI3NzZjMA/album_alb7077835.jpg",o:["Lui-même","Le pape","Évêque","Noble"],c:1,e:"Pape Léon III (Grandes Chroniques)."},
+            {q:"Par qui est sacré empereur?",o:["Patriarche","Pape Léon III","Carloman","Basileus"],c:1,e:"Pape Léon III en 800."},
+            {q:"Peuple païen conquis par Charlemagne?",o:["Vikings","Saxons","Ottomans","Mongols"],c:1,e:"Saxons (772-804)."},
+            {q:"Année de la mort de Charlemagne?",o:["800","814","843","768"],c:1,e:"28 janvier 814, Aix-la-Chapelle."},
+            {q:"Schisme de 1054?",o:["Division carolingienne","Églises catholique/orthodoxe","Conquête Constantinople","Verdun"],c:1,e:"Rupture Rome-Constantinople."},
+            {q:"Capitale sur cette carte?",i:"https://academy.artexplora.org/wp-content/uploads/2021/06/0104_carte.png",o:["Rome","Aix-la-Chapelle","Paris","Verdun"],c:1,e:"Aix-la-Chapelle, centre politique."},
+            {q:"Père de Charlemagne?",o:["Charles Martel","Pépin le Bref","Carloman","Louis le Pieux"],c:1,e:"Pépin le Bref."},
+            {q:"Administration de l'empire?",o:["Comtes+missi","Rois vassaux","Évêques seuls","Sans délégués"],c:0,e:"Comtés + missi dominici + capitulaires."},
+            {q:"Charlemagne souverain chrétien car?",o:["Conquiert pour christianisme","Païen","Combat pape","Islam"],c:0,e:"Conversion Saxons + protection Église."},
+            {q:"Charles le Chauve reçoit après Verdun?",o:["Orientale","Occidentale","Médiane","Nord"],c:1,e:"Francie occidentale (future France)."}
+        ];
+
+        let current=0,score=0,userAnswers=new Array(15).fill(null),answered=new Array(15).fill(false);
+        const els={q:document.getElementById('question'),qnum:document.getElementById('qnum'),score:document.getElementById('score'),answered:document.getElementById('answered'),prev:document.getElementById('prev'),next:document.getElementById('next'),finish:document.getElementById('finish')};
+
+        function render(){            
+            const q=questions[current];
+            let html=`<p><strong>${current+1}. ${q.q}</strong></p>`;
+            if(q.i) html+=`<img src="${q.i}" alt="Image" style="max-width:100%;border-radius:8px;margin:15px 0">`;
+            
+            q.o.forEach((opt,i)=>{
+                let cls='option';
+                if(answered[current]){
+                    if(i===q.c) cls+=' correct';
+                    else if(userAnswers[current]===i) cls+=' incorrect';
+                }
+                html+=`<label class="${cls}"><input type="radio" name="ans" value="${i}" ${userAnswers[current]===i?'checked':''}> ${opt}</label>`;
+            });
+            
+            if(!answered[current]){
+                html+=`<div class="validate-section"><button id="validate">✅ Valider</button></div>`;
+            }else{
+                html+=`<div class="explanation"><strong>✨ Explication:</strong><br>${q.e}</div>`;
+            }
+            
+            els.q.innerHTML=html;
+            
+            if(!answered[current]){
+                document.getElementById('validate').onclick=validate;
+            }
+            
+            updateDisplay();
+        }
+        
+        function validate(){
+            const sel=document.querySelector('input[name="ans"]:checked');
+            if(!sel){alert('Choisis une réponse!');return;}
+            
+            const ans=parseInt(sel.value);
+            userAnswers[current]=ans;
+            
+            if(ans===questions[current].c && !answered[current]) score++;
+            answered[current]=true;
+            
+            render();
+        }
+        
+        function updateDisplay(){
+            els.qnum.textContent=current+1;
+            els.score.textContent=score;
+            els.answered.textContent=answered.filter(Boolean).length;
+            els.prev.disabled=current===0;
+            els.next.disabled=current===14;
+        }
+        
+        els.prev.onclick=()=>{if(current>0){current--;render();}};
+        els.next.onclick=()=>{if(current<14){current++;render();}};
+        els.finish.onclick=()=>{
+            const pct=Math.round(score/15*100);
+            alert(`🏆 QCM TERMINÉ !\nScore: ${score}/15 (${pct}%)\n\nRevois les ❌ pour progresser !`);
+        };
+        
+        render();
+    </script>
+</body>
+</html>
